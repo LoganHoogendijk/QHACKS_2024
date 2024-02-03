@@ -27,12 +27,12 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     id = models.UUIDField(default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
-    crops = models.ManyToManyField('Crop', related_name='users')
+    crops = models.ManyToManyField('Crop', related_name='users', blank=True)
 
 class Crop(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     label = models.CharField(max_length=100)
-    leaves = models.ManyToManyField('Leaf', related_name='crops')
+    leaves = models.ManyToManyField('Leaf', related_name='crops', blank=True)
     crop_type = models.CharField(max_length=100)
 
 class Leaf(models.Model):

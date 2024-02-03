@@ -42,6 +42,14 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Registration successful'}, status=201)
         else:
             return Response(serializer.errors, status=400)
+        
+class UserProfileViewSet(viewsets.ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer 
+
+class CropViewSet(viewsets.ModelViewSet):
+    queryset = Crop.objects.all()
+    serializer_class = CropSerializer 
 
 class LeafViewSet(viewsets.ModelViewSet):
     queryset = Leaf.objects.all()
