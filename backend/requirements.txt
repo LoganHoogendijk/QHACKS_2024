@@ -1,0 +1,10 @@
+django==3.2.*
+djangorestframework==3.14.*
+markdown==3.4.3
+django-filter==23.1.*
+django-environ==0.10.0
+django-guardian==2.4.0
+djangorestframework-guardian==0.3.0
+django-cors-headers==3.14.0
+django-rest-authemail==2.1.7
+python-dotenv
