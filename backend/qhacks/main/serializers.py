@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Leaf, Recommendation
+from .models import Leaf, Recommendation, Crop, UserProfile
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,6 +8,10 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['username', 'password']
         extra_kwargs = {'password': {'write_only': True}}
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = '__all__'
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,6 +24,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             username=validated_data['username'],
             password=validated_data['password']
         )
+        UserProfile.objects.create(user=user)
         return user
 
 class LeafSerializer(serializers.ModelSerializer):
@@ -30,4 +35,9 @@ class LeafSerializer(serializers.ModelSerializer):
 class RecommendationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recommendation
-        fields= "__all__"
+        fields = "__all__"
+
+class CropSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Crop
+        fields = "__all__"

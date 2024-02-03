@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .serializers import UserSerializer, UserRegistrationSerializer, LeafSerializer, RecommendationSerializer
+from .serializers import *
 from .models import *
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -20,7 +20,9 @@ class UserViewSet(viewsets.ModelViewSet):
 
         if user:
             login(request, user)
-            return Response({'message': 'Login successful'})
+            user_profile = UserProfile.objects.get(user=user)
+            serializer = UserProfileSerializer(user_profile)
+            return Response({'message': 'Login successful', 'user': serializer.data})
         else:
             return Response({'message': 'Invalid credentials'}, status=401)
 
@@ -49,4 +51,6 @@ class RecommendationViewSet(viewsets.ModelViewSet):
     queryset = Recommendation.objects.all()
     serializer_class = RecommendationSerializer
 
-
+class CropViewSet(viewsets.ModelViewSet):
+    queryset = Crop.objects.all()
+    serializer_class = CropSerializer

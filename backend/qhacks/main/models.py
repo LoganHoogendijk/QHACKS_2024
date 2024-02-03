@@ -30,15 +30,18 @@ class UserProfile(models.Model):
     crops = models.ManyToManyField('Crop', related_name='users')
 
 class Crop(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     label = models.CharField(max_length=100)
     leaves = models.ManyToManyField('Leaf', related_name='crops')
     crop_type = models.CharField(max_length=100)
 
 class Leaf(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     image = models.ImageField(upload_to=leaf_image_upload_path, storage=S3Storage(), null=True, blank=True)
     time_stamp = models.DateTimeField(auto_now_add=True)
-    recommendations = models.ManyToManyField('Recommendation', related_name='leaves', null=True, blank=True)
+    recommendations = models.ManyToManyField('Recommendation', related_name='leaves')
 
 class Recommendation(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     content = models.CharField(max_length=500)
     complete = models.BooleanField(default=False)
