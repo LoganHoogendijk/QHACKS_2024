@@ -19,29 +19,26 @@ def leaf_image_upload_path(instance, filename):
                 |-- leaf2.jpg
         |   |-- ...
     """
-    crop_id = instance.crops.first().id
-    return f'person/{crop_id}/{filename}'
+    return f'leaves/{instance.crop.id}/{filename}'
 
 class UserProfile(models.Model):
     # has username and password from the user model
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    id = models.UUIDField(default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
     crops = models.ManyToManyField('Crop', related_name='users', blank=True)
 
 class Crop(models.Model):
-    id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     label = models.CharField(max_length=100)
     leaves = models.ManyToManyField('Leaf', related_name='crops', blank=True)
     crop_type = models.CharField(max_length=100)
 
 class Leaf(models.Model):
-    id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     image = models.ImageField(upload_to=leaf_image_upload_path, storage=S3Storage(), null=True, blank=True)
     time_stamp = models.DateTimeField(auto_now_add=True)
     recommendations = models.ManyToManyField('Recommendation', related_name='leaves')
+    crop = models.ForeignKey('Crop', on_delete=models.CASCADE)
 
 class Recommendation(models.Model):
-    id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     content = models.CharField(max_length=500)
     complete = models.BooleanField(default=False)

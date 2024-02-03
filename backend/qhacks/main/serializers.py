@@ -38,15 +38,18 @@ class CropSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class LeafSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Leaf
-        fields = "__all__"
-
 class RecommendationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recommendation
         fields = "__all__"
+
+class LeafSerializer(serializers.ModelSerializer):
+
+    recommendations = RecommendationSerializer(many=True, required=False)
+
+    class Meta:
+        model = Leaf
+        fields = ['image', 'recommendations', 'crop']
 
 class CropSerializer(serializers.ModelSerializer):
     class Meta:
