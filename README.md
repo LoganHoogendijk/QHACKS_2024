@@ -1,4 +1,2 @@
-# QHACKS_2024
-
-## LeafHack
+# LeafHack
 Grow a plant for a better life.
