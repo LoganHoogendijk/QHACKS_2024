@@ -1,9 +1,9 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from rest_framework import viewsets, permissions, serializers
+from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserRegistrationSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -39,16 +39,4 @@ class UserViewSet(viewsets.ModelViewSet):
         else:
             return Response(serializer.errors, status=400)
 
-# Your UserRegistrationSerializer needs to be defined here
-class UserRegistrationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['username', 'password'] 
-        extra_kwargs = {'password': {'write_only': True}}
 
-    def create(self, validated_data):
-        user = User.objects.create_user(
-            username=validated_data['username'],
-            password=validated_data['password']
-        )
-        return user
