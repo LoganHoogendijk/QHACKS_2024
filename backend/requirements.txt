@@ -8,3 +8,4 @@ djangorestframework-guardian==0.3.0
 django-cors-headers==3.14.0
 django-rest-authemail==2.1.7
 python-dotenv
+openai
