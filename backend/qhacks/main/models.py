@@ -37,7 +37,7 @@ class Crop(models.Model):
 class Leaf(models.Model):
     image = models.ImageField(upload_to=leaf_image_upload_path, storage=S3Storage(), null=True, blank=True)
     time_stamp = models.DateTimeField(auto_now_add=True)
-    recommendations = models.ManyToManyField('Recommendation', related_name='leaves')
+    recommendations = models.ManyToManyField('Recommendation', related_name='leaves', null=True, blank=True)
 
 class Recommendation(models.Model):
     content = models.CharField(max_length=500)

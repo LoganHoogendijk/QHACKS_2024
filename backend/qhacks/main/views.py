@@ -3,7 +3,8 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .serializers import UserSerializer, UserRegistrationSerializer
+from .serializers import UserSerializer, UserRegistrationSerializer, LeafSerializer, RecommendationSerializer
+from .models import *
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -28,6 +29,7 @@ class UserViewSet(viewsets.ModelViewSet):
         logout(request)
         return Response({'message': 'Logout successful'})
 
+
     @action(detail=False, methods=['post'])
     def register(self, request):
         serializer = UserRegistrationSerializer(data=request.data)
@@ -38,5 +40,13 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Registration successful'}, status=201)
         else:
             return Response(serializer.errors, status=400)
+
+class LeafViewSet(viewsets.ModelViewSet):
+    queryset = Leaf.objects.all()
+    serializer_class = LeafSerializer 
+
+class RecommendationViewSet(viewsets.ModelViewSet):
+    queryset = Recommendation.objects.all()
+    serializer_class = RecommendationSerializer
 
 
