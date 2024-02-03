@@ -9,11 +9,11 @@ load_dotenv()
 # Get the OpenAI API key
 openai_key = os.getenv("OPENAI_KEY")
 
-def recommender(disease, plant):
-    if disease == "":
-        msg = f"Give me 5 recommendations on how to take care of my {plant} plant"
-    else:
+def recommender(plant, disease=None):
+    if disease is not None:
         msg = f"Give me a checklist (maximum 5 steps) on how to fix {disease} on {plant}s"
+    else:
+        msg = f"Give me 5 recommendations on how to take care of my {plant} plant"
     client = OpenAI(
         # This is the default and can be omitted
         api_key=openai_key
@@ -49,7 +49,7 @@ if __name__ == '__main__':
     disease = "black rot"
     plant = "apple"
     # msg = "Say this is a test"
-    checklist = recommender(disease, plant)
+    checklist = recommender(plant, disease)
     # print(checklist)
 
     # Split the text into an array using newline as the separator
@@ -63,8 +63,7 @@ if __name__ == '__main__':
     #     print(f"{index}. {instruction}")
     print(instructions_array)
 
-    disease = ""
-    checklist = recommender(disease, plant)
+    checklist = recommender(plant)
 
     instructions_array = checklist.split('\n')
     instructions_array = [instruction.strip() for instruction in instructions_array if instruction.strip()]
