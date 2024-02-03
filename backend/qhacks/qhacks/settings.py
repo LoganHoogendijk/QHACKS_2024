@@ -30,7 +30,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [os.environ['ALLOWED_HOSTS']]
+ALLOWED_HOSTS = os.environ['ALLOWED_HOSTS'].split(',')
 
 # settings.py
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
