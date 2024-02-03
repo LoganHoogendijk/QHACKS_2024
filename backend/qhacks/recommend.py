@@ -43,7 +43,9 @@ def recommender(plant, disease=None):
     # res = ""
     # print(response.choices[0].message.content)
     res = response.choices[0].message.content
-    return res
+    res_array = res.split('\n')
+    res_array = [step.strip() for step in res_array if step.strip()]
+    return res_array
 
 if __name__ == '__main__':
     disease = "black rot"
