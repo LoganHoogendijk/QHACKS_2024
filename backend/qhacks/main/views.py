@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .serializers import UserSerializer, UserRegistrationSerializer, LeafSerializer, RecommendationSerializer
+from .serializers import UserSerializer, UserRegistrationSerializer, LeafSerializer, RecommendationSerializer, UserProfileSerializer, CropSerializer
 from .models import *
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -40,6 +40,14 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Registration successful'}, status=201)
         else:
             return Response(serializer.errors, status=400)
+        
+class UserProfileViewSet(viewsets.ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer 
+
+class CropViewSet(viewsets.ModelViewSet):
+    queryset = Crop.objects.all()
+    serializer_class = CropSerializer 
 
 class LeafViewSet(viewsets.ModelViewSet):
     queryset = Leaf.objects.all()

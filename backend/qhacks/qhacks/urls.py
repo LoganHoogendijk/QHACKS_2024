@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from main.views import UserViewSet, LeafViewSet, RecommendationViewSet
+from main.views import UserViewSet, LeafViewSet, RecommendationViewSet, UserProfileViewSet, CropViewSet
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')
 router.register(r'leaf', LeafViewSet, basename='leaf')
 router.register(r'recommendation', RecommendationViewSet, basename='recommendation')
+router.register(r'userprofile', UserProfileViewSet, basename='userprofile')
+router.register(r'crop', CropViewSet, basename='crop')
 
 
 urlpatterns = [

@@ -27,17 +27,17 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     id = models.UUIDField(default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
-    crops = models.ManyToManyField('Crop', related_name='users')
+    crops = models.ManyToManyField('Crop', related_name='users', blank=True)
 
 class Crop(models.Model):
     label = models.CharField(max_length=100)
-    leaves = models.ManyToManyField('Leaf', related_name='crops')
+    leaves = models.ManyToManyField('Leaf', related_name='crops', blank=True)
     crop_type = models.CharField(max_length=100)
 
 class Leaf(models.Model):
     image = models.ImageField(upload_to=leaf_image_upload_path, storage=S3Storage(), null=True, blank=True)
     time_stamp = models.DateTimeField(auto_now_add=True)
-    recommendations = models.ManyToManyField('Recommendation', related_name='leaves', null=True, blank=True)
+    recommendations = models.ManyToManyField('Recommendation', related_name='leaves', blank=True)
 
 class Recommendation(models.Model):
     content = models.CharField(max_length=500)
