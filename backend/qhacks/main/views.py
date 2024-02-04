@@ -105,14 +105,16 @@ class LeafViewSet(viewsets.ModelViewSet):
             recommendations = recommender(plant=res["Plant Type"], disease=res["Disease"])
 
         # Create recommendation objects based on its response
+        rec_res = []
         for recommendation in recommendations:
             recommendation = Recommendation.objects.create(content=recommendation)
             # link the recommendation objects to the leaf object
             leaf.recommendations.add(recommendation)
+            rec_res.append(recommendation)
 
         
         # return recommendations, and model output
-        return Response({"recommendations":recommendations, "output": res}, status=status.HTTP_200_OK)
+        return Response({"recommendations":rec_res, "output": res}, status=status.HTTP_200_OK)
 
 class RecommendationViewSet(viewsets.ModelViewSet):
     queryset = Recommendation.objects.all()
