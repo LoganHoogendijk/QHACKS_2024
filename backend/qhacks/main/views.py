@@ -79,7 +79,7 @@ class LeafViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         crop_id = self.request.data.get('crop')
-        curr_user = getattr(self.request, 'user', None)
+        curr_user = self.request.data.get('user')
         user_profile = UserProfile.objects.get(user=curr_user)
         crop = user_profile.crops.get(id=crop_id)
         leaf = serializer.save()
