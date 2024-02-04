@@ -10,7 +10,7 @@ django-rest-authemail
 python-dotenv
 boto3
 django-storages
-openai
+openai==0.8.0
 Pillow
 torch
 torchvision
