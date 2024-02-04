@@ -54,7 +54,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 if not user_profile_exists:
                     UserProfile.objects.create(user=user, name=user.username)
                 login(request, user)
-                return Response({'message': 'Registration successful'}, status=201)
+                return Response({'user': user.id}, status=201)
         else:
             return Response(serializer.errors, status=400)
         
