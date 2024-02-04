@@ -25,8 +25,8 @@ router.register(r'recommendation', RecommendationViewSet, basename='recommendati
 router.register(r'userprofile', UserProfileViewSet, basename='userprofile')
 router.register(r'crop', CropViewSet, basename='crop')
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    path('csrf/', get_csrf_token, name='get-csrf-token')
 ]

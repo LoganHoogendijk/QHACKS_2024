@@ -10,6 +10,12 @@ from .models import *
 from main.fix import ImageClassifier
 from .test import get_model_results
 from .recommend import recommender
+from django.middleware.csrf import get_token
+from django.http import JsonResponse
+
+def get_csrf_token(request):
+    csrf_token = get_token(request)
+    return JsonResponse({'csrfmiddleware': csrf_token})
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
