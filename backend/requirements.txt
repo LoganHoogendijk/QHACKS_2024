@@ -12,3 +12,5 @@ boto3
 django-storages
 openai
 Pillow
+torch
+torchvision
