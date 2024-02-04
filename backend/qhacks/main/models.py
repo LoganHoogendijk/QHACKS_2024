@@ -18,7 +18,7 @@ def leaf_image_upload_path(instance, filename):
                 |-- leaf2.jpg
         |   |-- ...
     """
-    return f'leaves/{instance.crop.id}/{filename}'
+    return f'leaves/{instance.id}/{filename}'
 
 class UserProfile(models.Model):
     # has username and password from the user model
@@ -36,7 +36,7 @@ class Leaf(models.Model):
     image = models.ImageField(upload_to=leaf_image_upload_path, storage=S3Storage(), null=True, blank=True)
     time_stamp = models.DateTimeField(auto_now_add=True)
     recommendations = models.ManyToManyField('Recommendation', related_name='leaves')
-    crop = models.ForeignKey('Crop', on_delete=models.CASCADE)
+    # crop = models.ForeignKey('Crop', on_delete=models.CASCADE, related_name='leaves')
 
 class Recommendation(models.Model):
     content = models.CharField(max_length=500)
