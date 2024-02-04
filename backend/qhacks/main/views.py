@@ -67,7 +67,7 @@ class CropViewSet(viewsets.ModelViewSet):
     serializer_class = CropSerializer 
 
     def perform_create(self, serializer):
-        curr_user = getattr(self.request, 'user', None)
+        curr_user = self.request.data.get('user')
         user_profile = UserProfile.objects.get(user=curr_user)
         crop = serializer.save()
         user_profile.crops.add(crop)
