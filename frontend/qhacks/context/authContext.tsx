@@ -33,7 +33,6 @@ export function AuthProvider({ children }: any) {
         // Store it in local storage
         localStorage.setItem("csrfToken", val);
         localStorage.setItem("userId", userId.data.user.user);
-        console.log(val, userId);
         setCsfr(val);
         setUser(userId.data.user);
       } catch (e) {

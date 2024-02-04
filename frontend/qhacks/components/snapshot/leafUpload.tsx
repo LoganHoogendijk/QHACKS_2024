@@ -22,7 +22,7 @@ function LeafUpload({ children }: any) {
   const [leafImage, setLeafImage] = useState<any>(null);
   const [cropLabel, setCropLabel] = useState("");
 
-  const { setPlants, setSelectedPlant} = useData();
+  const { setPlants, setSelectedPlant } = useData();
   const { csrf, user } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -32,11 +32,12 @@ function LeafUpload({ children }: any) {
 
   const submitForm = async (e: any) => {
     e.preventDefault();
+    setLoading(true);
     const res = await postCrop(leafImage, cropLabel, csrf, user.user);
-
+    console.log("setting selected plat", res);
     setSelectedPlant(res);
 
-    router.push("/plant?plantId=0")
+    router.push("/plant");
   };
 
   const deleteLeafImage = () => {
