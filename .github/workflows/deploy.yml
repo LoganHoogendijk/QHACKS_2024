@@ -32,4 +32,4 @@ jobs:
 
       - name: Deploy site
         run: ssh my-vps 
-          'cd ${{ secrets.PROJECT_ROOT }} && sudo systemctl stop qhacks && git pull && sudo systemctl start qhacks'
+          'cd ${{ secrets.PROJECT_ROOT }} && cd .. && git pull && pip install -r requirements.txt && cd qhacks && python manage.py migrate && sudo systemctl restart qhacks'

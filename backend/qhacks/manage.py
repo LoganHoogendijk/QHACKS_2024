@@ -2,6 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from main.resnet9 import ResNet9
 
 
 def main():
