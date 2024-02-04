@@ -1,3 +1,4 @@
+import requests
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from rest_framework import viewsets, permissions, status
@@ -6,6 +7,9 @@ from rest_framework.response import Response
 from django.db import transaction
 from .serializers import *
 from .models import *
+# from main.resnet9 import ResNet9
+from main.fix import ImageClassifier
+from .test import get_model_results
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -68,14 +72,16 @@ class LeafViewSet(viewsets.ModelViewSet):
     serializer_class = LeafSerializer 
 
     def perform_create(self, serializer):
-        crop_id = self.request.data.get('crop')
+        # crop_id = self.request.data.get('crop')
         curr_user = getattr(self.request, 'user', None)
         user_profile = UserProfile.objects.get(user=curr_user)
-        crop = user_profile.crops.get(id=crop_id)
+        # crop = user_profile.crops.get(id=crop_id)
         leaf = serializer.save()
-        crop.leaves.add(leaf)
+        # crop.leaves.add(leaf)
 
         # call the AI model
+        res = get_model_results(leaf.image.url)
+        print(res)
         # take the results and call OPENAI
         # Create recommendation objects based on its response
         # link the recommendation objects to the leaf object

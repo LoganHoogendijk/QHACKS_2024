@@ -45,6 +45,9 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 # Use Amazon S3 for static files storage.
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
+MEDIA_ROOT = BASE_DIR / 'media/'
+MEDIA_URL = '/media/'
+
 # Application definition
 
 INSTALLED_APPS = [
