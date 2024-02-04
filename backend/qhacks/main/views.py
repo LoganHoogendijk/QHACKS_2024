@@ -67,13 +67,21 @@ class LeafViewSet(viewsets.ModelViewSet):
     queryset = Leaf.objects.all()
     serializer_class = LeafSerializer 
 
-    # def perform_create(self, serializer):
-    #     curr_user = getattr(self.request, 'user', None)
-    #     user_profile = UserProfile.objects.get(user=curr_user)
-    #     crop = user_profile.crops.get(crop=)
-    #     leaf = serializer.save()
-    #     crop.leaves.add(leaf)
-    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+    def perform_create(self, serializer):
+        crop_id = self.request.data.get('crop')
+        curr_user = getattr(self.request, 'user', None)
+        user_profile = UserProfile.objects.get(user=curr_user)
+        crop = user_profile.crops.get(id=crop_id)
+        leaf = serializer.save()
+        crop.leaves.add(leaf)
+
+        # call the AI model
+        # take the results and call OPENAI
+        # Create recommendation objects based on its response
+        # link the recommendation objects to the leaf object
+        # return recommendations, and model output
+        
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class RecommendationViewSet(viewsets.ModelViewSet):
     queryset = Recommendation.objects.all()
