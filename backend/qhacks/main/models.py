@@ -8,7 +8,6 @@ from django.conf import settings
 class S3Storage(S3Boto3Storage):
     location = settings.AWS_STORAGE_BUCKET_NAME
 
-# determine the upload path
 def leaf_image_upload_path(instance, filename):
     # use the crop's id (UUID) as the subdirectory
     """
@@ -24,7 +23,7 @@ def leaf_image_upload_path(instance, filename):
 class UserProfile(models.Model):
     # has username and password from the user model
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, null=True, blank=True)
     crops = models.ManyToManyField('Crop', related_name='users', blank=True)
 
 class Crop(models.Model):

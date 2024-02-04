@@ -1,8 +1,9 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.db import transaction
 from .serializers import *
 from .models import *
 
@@ -37,9 +38,13 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = UserRegistrationSerializer(data=request.data)
 
         if serializer.is_valid():
-            user = serializer.save()
-            login(request, user)
-            return Response({'message': 'Registration successful'}, status=201)
+            with transaction.atomic():
+                user = serializer.save()
+                user_profile_exists = UserProfile.objects.filter(user=user).exists()
+                if not user_profile_exists:
+                    UserProfile.objects.create(user=user, name=user.username)
+                login(request, user)
+                return Response({'message': 'Registration successful'}, status=201)
         else:
             return Response(serializer.errors, status=400)
         
@@ -50,6 +55,13 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 class CropViewSet(viewsets.ModelViewSet):
     queryset = Crop.objects.all()
     serializer_class = CropSerializer 
+
+    def perform_create(self, serializer):
+        curr_user = getattr(self.request, 'user', None)
+        user_profile = UserProfile.objects.get(user=curr_user)
+        crop = serializer.save()
+        user_profile.crops.add(crop)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class LeafViewSet(viewsets.ModelViewSet):
     queryset = Leaf.objects.all()
@@ -62,3 +74,4 @@ class RecommendationViewSet(viewsets.ModelViewSet):
 class CropViewSet(viewsets.ModelViewSet):
     queryset = Crop.objects.all()
     serializer_class = CropSerializer
+
