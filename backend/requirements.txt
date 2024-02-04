@@ -10,3 +10,4 @@ django-rest-authemail==2.1.7
 python-dotenv
 boto3
 django-storages
+openai
