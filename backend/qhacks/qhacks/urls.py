@@ -28,5 +28,6 @@ router.register(r'crop', CropViewSet, basename='crop')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('csrf/', get_csrf_token, name='get-csrf-token')
+    path('csrf/', get_csrf_token, name='get-csrf-token'),
+    path('images/<int:crop_id>/', get_leaves, name='get-leaves')
 ]

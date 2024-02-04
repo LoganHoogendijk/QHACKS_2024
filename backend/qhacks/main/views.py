@@ -12,10 +12,19 @@ from .test import get_model_results
 from .recommend import recommender
 from django.middleware.csrf import get_token
 from django.http import JsonResponse
+from rest_framework.decorators import api_view
 
 def get_csrf_token(request):
     csrf_token = get_token(request)
     return JsonResponse({'csrfmiddleware': csrf_token})
+
+@api_view(['GET'])
+def get_leaves(request, crop_id):
+        crop_q = Crop.objects.get(id=crop_id)
+        leaves = crop_q.leaves
+        print(leaves)
+        serialized_leaves = LeafSerializer(leaves, many=True).data
+        return Response(serialized_leaves, status=status.HTTP_200_OK)
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -73,6 +82,7 @@ class CropViewSet(viewsets.ModelViewSet):
         user_profile.crops.add(crop)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
 class LeafViewSet(viewsets.ModelViewSet):
     queryset = Leaf.objects.all()
     serializer_class = LeafSerializer 
@@ -105,19 +115,18 @@ class LeafViewSet(viewsets.ModelViewSet):
             recommendations = recommender(plant=res["Plant Type"], disease=res["Disease"])
 
         # Create recommendation objects based on its response
-        rec_res = []
         for recommendation in recommendations:
             recommendation = Recommendation.objects.create(content=recommendation)
             # link the recommendation objects to the leaf object
             leaf.recommendations.add(recommendation)
-            rec_res.append({"content": recommendation})
 
         
         # return recommendations, and model output
-        return Response({"recommendations":rec_res, "output": res}, status=status.HTTP_200_OK)
+        return Response({"recommendations":recommendations, "output": res}, status=status.HTTP_200_OK)
 
 class RecommendationViewSet(viewsets.ModelViewSet):
     queryset = Recommendation.objects.all()
     serializer_class = RecommendationSerializer
+
 
 
