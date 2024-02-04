@@ -67,6 +67,14 @@ class LeafViewSet(viewsets.ModelViewSet):
     queryset = Leaf.objects.all()
     serializer_class = LeafSerializer 
 
+    # def perform_create(self, serializer):
+    #     curr_user = getattr(self.request, 'user', None)
+    #     user_profile = UserProfile.objects.get(user=curr_user)
+    #     crop = user_profile.crops.get(crop=)
+    #     leaf = serializer.save()
+    #     crop.leaves.add(leaf)
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 class RecommendationViewSet(viewsets.ModelViewSet):
     queryset = Recommendation.objects.all()
     serializer_class = RecommendationSerializer

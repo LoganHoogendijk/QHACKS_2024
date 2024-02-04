@@ -35,7 +35,7 @@ class Leaf(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     image = models.ImageField(upload_to=leaf_image_upload_path, storage=S3Storage(), null=True, blank=True)
     time_stamp = models.DateTimeField(auto_now_add=True)
-    recommendations = models.ManyToManyField('Recommendation', related_name='leaves')
+    recommendations = models.ManyToManyField('Recommendation', related_name='leaves', blank=True)
     # crop = models.ForeignKey('Crop', on_delete=models.CASCADE, related_name='leaves')
 
 class Recommendation(models.Model):
