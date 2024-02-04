@@ -40,8 +40,8 @@ class RecommendationSerializer(serializers.ModelSerializer):
 
 class LeafSerializer(serializers.ModelSerializer):
 
-    recommendations = RecommendationSerializer(many=True, required=False)
+    # recommendations = RecommendationSerializer(many=True, required=False)
 
     class Meta:
         model = Leaf
-        fields = ['image', 'recommendations', 'crop']
+        fields = ['image', 'recommendations']
