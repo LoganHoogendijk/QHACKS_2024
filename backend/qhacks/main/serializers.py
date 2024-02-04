@@ -27,11 +27,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         UserProfile.objects.create(user=user)
         return user
     
-class UserProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserProfile
-        fields = "__all__"
-    
 class CropSerializer(serializers.ModelSerializer):
     class Meta:
         model = Crop
@@ -50,8 +45,3 @@ class LeafSerializer(serializers.ModelSerializer):
     class Meta:
         model = Leaf
         fields = ['image', 'recommendations', 'crop']
-
-class CropSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Crop
-        fields = "__all__"

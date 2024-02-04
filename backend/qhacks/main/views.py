@@ -71,7 +71,4 @@ class RecommendationViewSet(viewsets.ModelViewSet):
     queryset = Recommendation.objects.all()
     serializer_class = RecommendationSerializer
 
-class CropViewSet(viewsets.ModelViewSet):
-    queryset = Crop.objects.all()
-    serializer_class = CropSerializer
 
