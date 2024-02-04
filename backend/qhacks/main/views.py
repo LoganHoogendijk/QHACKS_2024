@@ -94,14 +94,14 @@ class LeafViewSet(viewsets.ModelViewSet):
         crop = user_profile.crops.get(id=crop_id)
         leaf = serializer.save()
         crop.leaves.add(leaf)
-        return leaf
+        return leaf, crop
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         # Save the leaf object
-        leaf = self.perform_create(serializer)
+        leaf, crop = self.perform_create(serializer)
 
         # call the AI model
         res = get_model_results(leaf.image.url)
@@ -122,7 +122,7 @@ class LeafViewSet(viewsets.ModelViewSet):
 
         
         # return recommendations, and model output
-        return Response({"recommendations":recommendations, "output": res}, status=status.HTTP_200_OK)
+        return Response({"recommendations":recommendations, "output": res, "crop": crop.id}, status=status.HTTP_200_OK)
 
 class RecommendationViewSet(viewsets.ModelViewSet):
     queryset = Recommendation.objects.all()
