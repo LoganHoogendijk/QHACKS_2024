@@ -39,5 +39,5 @@ class Leaf(models.Model):
     # crop = models.ForeignKey('Crop', on_delete=models.CASCADE, related_name='leaves')
 
 class Recommendation(models.Model):
-    content = models.CharField(max_length=500)
+    content = models.CharField(max_length=1500)
     complete = models.BooleanField(default=False)

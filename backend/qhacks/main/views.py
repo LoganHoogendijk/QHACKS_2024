@@ -1,4 +1,3 @@
-import requests
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from rest_framework import viewsets, permissions, status
@@ -10,6 +9,7 @@ from .models import *
 # from main.resnet9 import ResNet9
 from main.fix import ImageClassifier
 from .test import get_model_results
+from .recommend import recommender
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -77,17 +77,36 @@ class LeafViewSet(viewsets.ModelViewSet):
         user_profile = UserProfile.objects.get(user=curr_user)
         # crop = user_profile.crops.get(id=crop_id)
         leaf = serializer.save()
+        return leaf
         # crop.leaves.add(leaf)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        # Save the leaf object
+        leaf = self.perform_create(serializer)
 
         # call the AI model
         res = get_model_results(leaf.image.url)
         print(res)
         # take the results and call OPENAI
-        # Create recommendation objects based on its response
-        # link the recommendation objects to the leaf object
-        # return recommendations, and model output
         
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        recommendations = None
+        if res["Healthy"] == 1:
+            recommendations = recommender(res["Plant Type"])
+        else:
+            recommendations = recommender(plant=res["Plant Type"], disease=res["Disease"])
+
+        # Create recommendation objects based on its response
+        for recommendation in recommendations:
+            recommendation = Recommendation.objects.create(content=recommendation)
+            # link the recommendation objects to the leaf object
+            leaf.recommendations.add(recommendation)
+
+        
+        # return recommendations, and model output
+        return Response({"recommendations":recommendations, "output": res}, status=status.HTTP_200_OK)
 
 class RecommendationViewSet(viewsets.ModelViewSet):
     queryset = Recommendation.objects.all()
