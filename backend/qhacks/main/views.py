@@ -110,7 +110,7 @@ class LeafViewSet(viewsets.ModelViewSet):
             recommendation = Recommendation.objects.create(content=recommendation)
             # link the recommendation objects to the leaf object
             leaf.recommendations.add(recommendation)
-            rec_res.append(recommendation)
+            rec_res.append({"content": recommendation})
 
         
         # return recommendations, and model output
