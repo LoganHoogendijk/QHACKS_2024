@@ -29,7 +29,7 @@ class UserProfile(models.Model):
 class Crop(models.Model):
     label = models.CharField(max_length=100)
     leaves = models.ManyToManyField('Leaf', related_name='crops', blank=True)
-    crop_type = models.CharField(max_length=100)
+    crop_type = models.CharField(max_length=100, null=True)
 
 class Leaf(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

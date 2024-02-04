@@ -78,13 +78,13 @@ class LeafViewSet(viewsets.ModelViewSet):
     serializer_class = LeafSerializer 
 
     def perform_create(self, serializer):
-        # crop_id = self.request.data.get('crop')
+        crop_id = self.request.data.get('crop')
         curr_user = getattr(self.request, 'user', None)
         user_profile = UserProfile.objects.get(user=curr_user)
-        # crop = user_profile.crops.get(id=crop_id)
+        crop = user_profile.crops.get(id=crop_id)
         leaf = serializer.save()
+        crop.leaves.add(leaf)
         return leaf
-        # crop.leaves.add(leaf)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
