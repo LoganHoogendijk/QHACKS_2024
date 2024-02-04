@@ -31,12 +31,14 @@ function Plant() {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const { selectedPlant } = useData();
-  const { csrf, user } = useAuth();
+  const { csrf } = useAuth();
 
+  console.log(selectedPlant);
   useEffect(() => {
     const fetchImage = async () => {
       const res = await getImage(selectedPlant.crop, csrf);
       const imageUrl = res[0].image;
+      console.log(imageUrl);
       setUrl(imageUrl);
       setLoading(false);
     };
@@ -63,14 +65,16 @@ function Plant() {
                   </div>
                   <div className="flex flex-col gap-[10px] items-start">
                     <div className="!text-body text-mutedText">2024-02-04</div>
-                    <Badge className="bg-themePrimary border-[2px] border-themeBtns text-black font-normal">
-                      {selectedPlant?.output?.Disease}
-                    </Badge>
-                    <Badge className="bg-themePrimary border-[2px] border-themeBtns text-black font-normal">
-                      {selectedPlant?.output?.Healthy == 1
-                        ? "Healthy"
-                        : "Unhealthy"}
-                    </Badge>
+                    <div className="flex gap-[15px]">
+                      <Badge className="bg-themePrimary border-[2px] border-themeBtns text-black font-normal">
+                        {selectedPlant?.output?.Disease}
+                      </Badge>
+                      <Badge className="bg-themePrimary border-[2px] border-themeBtns text-black font-normal">
+                        {selectedPlant?.output?.Healthy == 1
+                          ? "Healthy"
+                          : "Unhealthy"}
+                      </Badge>
+                    </div>
                   </div>
                 </div>
                 <div className="flex flex-col justify-star h-[100%]">
@@ -78,15 +82,15 @@ function Plant() {
                     Recommendations
                   </h2>
                   <ul className="flex flex-col justify-start items-start gap-[17px] w-[100%]">
-                    {selectedPlant?.output?.recommendations.map(
+                    {selectedPlant?.recommendations.map(
                       (recommendation: any, key: any) => (
                         <div
                           key={key}
-                          className="flex justify-start w-[100%] items-center gap-[10px]"
+                          className="flex justify-start w-[100%] items-start gap-[10px]"
                         >
                           <Checkbox id={"recommendation" + key} />
                           <Label
-                            className="!text-body font-normal cursor-pointer tracking-wide"
+                            className="!text-smBody font-normal cursor-pointer tracking-wide"
                             htmlFor={"recommendation" + key}
                           >
                             {recommendation}

@@ -36,7 +36,7 @@ function LeafUpload({ children }: any) {
     const res = await postCrop(leafImage, cropLabel, csrf, user.user);
     console.log("setting selected plat", res);
     setSelectedPlant(res);
-
+    setLoading(false);
     router.push("/plant");
   };
 
@@ -95,10 +95,11 @@ function LeafUpload({ children }: any) {
 
         <DialogFooter className="mt-[20px]">
           {loading ? (
-            <div className="flex">
-              <div className="h-[5px] w-[5px] bg-themeBtns rounded-[50%]"></div>
-              <div className="h-[5px] w-[5px] bg-themeBtns rounded-[50%]"></div>
-              <div className="h-[5px] w-[5px] bg-themeBtns rounded-[50%]"></div>
+            <div className="flex gap-[20px] justify-center w-[100%] ">
+              <div className="ball h-[5px] w-[5px] bg-themeBtns rounded-[50%] "></div>
+              <div className="ball h-[5px] w-[5px] bg-themeBtns rounded-[50%]"></div>
+              <div className="ball h-[5px] w-[5px] bg-themeBtns rounded-[50%]"></div>
+              <div className="ball h-[5px] w-[5px] bg-themeBtns rounded-[50%]"></div>
             </div>
           ) : (
             <Button onClick={(e) => submitForm(e)}>Analyze Leaf</Button>

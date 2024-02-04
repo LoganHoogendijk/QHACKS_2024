@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["http://192.18.149.98"],
+    domains: ["qhacks2024.s3.amazonaws.com"],
   },
 };
 

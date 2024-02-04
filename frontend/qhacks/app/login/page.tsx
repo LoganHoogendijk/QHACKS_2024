@@ -104,6 +104,7 @@ function page() {
                   </Label>
                   <Input
                     id="password"
+                    type="password"
                     defaultValue=""
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
